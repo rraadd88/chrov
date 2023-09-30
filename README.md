@@ -14,7 +14,7 @@
   
 <!-- PROJECT LOGO -->
 <div align="center">
-  <img src="https://github.com/rraadd88/chrov/assets/9945034/91249a1c-95cf-48c1-a98e-39896c9f18d1" alt="logo" />
+  <img src="https://github.com/rraadd88/chrov/assets/9945034/c2dcd214-a962-4d8c-bfbc-3a9ce82ce07f" alt="logo" />
   <h1 align="center">chrov</h1>
   <p align="center">
     Chromosome Visualization library in python.
@@ -34,7 +34,7 @@ With additional dependencies as required:
 ```
 pip install chrov[dev]         # for local testing
 ```
-![image](https://github.com/rraadd88/chrov/assets/9945034/dfdee41b-29ac-4af4-86ea-96136d56afb7)
+![image](https://github.com/rraadd88/chrov/assets/9945034/863eb75d-d383-48a1-a0de-d38671435b09)
 # Examples
 [🏷️Annotations on chromosomes](https://github.com/rraadd88/chrov/blob/master/examples/chrov_viz_annot.ipynb)  
 [🧬Visualization of genome, set of chromosomes, a chromosome and an arm](https://github.com/rraadd88/chrov/blob/master/examples/chrov_viz_chrom.ipynb)  
