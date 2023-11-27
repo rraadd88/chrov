@@ -23,7 +23,18 @@
     ·
     <a href="https://github.com/rraadd88/chrov#api">Explore the API</a>
   </p>
-</div> 
+</div>  
+
+![image](./examples/image.png)   
+
+# Examples  
+
+[🏷️Annotations on chromosomes](https://github.com/rraadd88/chrov/blob/master/examples/chrov_viz_annot.ipynb)  
+[🧬Visualization of genome, set of chromosomes, a chromosome and an arm](https://github.com/rraadd88/chrov/blob/master/examples/chrov_viz_chrom.ipynb)  
+[🔥🗺️Visualization of heatmaps along chromosome arm](https://github.com/rraadd88/chrov/blob/master/examples/chrov_viz_chrom_custom.ipynb)  
+[🔌Integration of custom plots e.g. made using seaborn](https://github.com/rraadd88/chrov/blob/master/examples/chrov_viz_figure_custom.ipynb)  
+[📈🍭Integration of basic plots e.g. stem/lollipop plot ](https://github.com/rraadd88/chrov/blob/master/examples/chrov_viz_figure_stem.ipynb)  
+[↔️↔️Visualization of intervals/ranges/segments along a chromosome arm](https://github.com/rraadd88/chrov/blob/master/examples/chrov_viz_ranges.ipynb)  
   
 # Installation
     
@@ -34,27 +45,34 @@ With additional dependencies as required:
 ```
 pip install chrov[dev]         # for local testing
 ```
-![image](https://github.com/rraadd88/chrov/assets/9945034/dfdee41b-29ac-4af4-86ea-96136d56afb7)
-# Examples
-[🏷️Annotations on chromosomes](https://github.com/rraadd88/chrov/blob/master/examples/chrov_viz_annot.ipynb)  
-[🧬Visualization of genome, set of chromosomes, a chromosome and an arm](https://github.com/rraadd88/chrov/blob/master/examples/chrov_viz_chrom.ipynb)  
-[🔥🗺️Visualization of heatmaps along chromosome arm](https://github.com/rraadd88/chrov/blob/master/examples/chrov_viz_chrom_custom.ipynb)  
-[🔌Integration of custom plots e.g. made using seaborn](https://github.com/rraadd88/chrov/blob/master/examples/chrov_viz_figure_custom.ipynb)  
-[📈🍭Integration of basic plots e.g. stem/lollipop plot ](https://github.com/rraadd88/chrov/blob/master/examples/chrov_viz_figure_stem.ipynb)  
-[↔️↔️Visualization of intervals/ranges/segments along a chromosome arm](https://github.com/rraadd88/chrov/blob/master/examples/chrov_viz_ranges.ipynb)  
 
-# How to cite?
-Please cite it using the metadata given in [this file](https://github.com/rraadd88/{repo_name}/blob/main/CITATION.cff). 
-For more information about citation, please see 'Cite this repository' section on the github page of the repository.  
+# How to cite?  
+1. Using BibTeX:   
+```
+@software{Dandage_htsimaging,
+  title   = {chrov: Chromosome Visualization library in python},
+  author  = {Dandage, Rohan},
+  year    = {2023},
+  url     = {https://zenodo.org/doi/10.5281/zenodo.10211265},
+  version = {v0.0.1},
+  note    = {The URL is a DOI link to the permanent archive of the software.},
+}
+```
+2. DOI link: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10211265.svg)](https://zenodo.org/doi/10.5281/zenodo.10211265), or  
+
+3. Using citation information from [CITATION.CFF file](https://github.com/rraadd88/chrov/blob/main/CITATION.cff).  
+
 # Future directions, for which contributions are welcome:  
 - [ ] Set subplot sizes by default: automate setting off and offy.
 - [ ] Compatibility of seaborn plots with polar layout.
 - [ ] Layering the interval vizualizations on the polar layout.
 - [ ] Connection styles.
 - [ ] Other features and improvements.
+
 # Similar projects:
 - https://github.com/moshi4/pyCirclize
 - https://github.com/ponnhide/pyCircos
+
 # API
 <!-- markdownlint-disable -->
 

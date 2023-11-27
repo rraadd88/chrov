@@ -78,3 +78,5 @@ target/
 
 6
 *.bak
+examples/outputs/
+build/
