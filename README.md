@@ -14,7 +14,7 @@
   
 <!-- PROJECT LOGO -->
 <div align="center">
-  <img src="https://github.com/rraadd88/chrov/assets/9945034/91249a1c-95cf-48c1-a98e-39896c9f18d1" alt="logo" />
+  <img src="https://github.com/rraadd88/chrov/assets/9945034/c2dcd214-a962-4d8c-bfbc-3a9ce82ce07f" alt="logo" />
   <h1 align="center">chrov</h1>
   <p align="center">
     Chromosome Visualization library in python.
