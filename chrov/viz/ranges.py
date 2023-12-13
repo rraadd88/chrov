@@ -21,8 +21,11 @@ def plot_ranges(
     cytobands_y: float = None,
     col_groupby: str=None,
     col_sortby: str=None,
+    show_labels: str= True,
     col_label: str=None,
     colors: dict=None,
+    palette: str= None,
+    hue_lim: list= [],
     lw: int = 10,
     zorders: dict=None,
     show_segments: bool=False,
@@ -90,11 +93,24 @@ def plot_ranges(
             raise ValueError(kind)
         y='y'
     if not hue is None:
-        if colors is None:
-            from roux.viz.colors import get_ncolors
-            colors=get_ncolors(df1[hue].nunique())
-        if isinstance(colors,list):
-            colors=dict(zip(df1[hue].unique(),colors))
+        if df1[hue].dtype=='float':
+            from roux.viz.colors import get_val2color
+            # get_val2color?
+            colors,colors_legend=get_val2color(
+                df1[hue],
+                vmin=hue_lim[0],
+                vmax=hue_lim[1],
+                cmap=palette,
+            )
+        else:
+            if colors is None:
+                from roux.viz.colors import get_ncolors
+                colors=get_ncolors(
+                    df1[hue].nunique(),
+                    cmap=palette,
+                    )
+            if isinstance(colors,list):
+                colors=dict(zip(df1[hue].unique(),colors))        
     if zorders is None:
         zorders={}
     
@@ -105,16 +121,17 @@ def plot_ranges(
                                    ),axis=1)
     ax.invert_yaxis()
     # labels
-    if kind in [None,'split','separate']: 
-        if not col_sortby is None:
-            df1=df1.sort_values(col_sortby,ascending=False)
-        _=df1.apply(lambda x: ax.text(x=x[col_start],y=x[y],s=f"{x[col_label]} ",ha='right',va='center',
-                                      # color=x['label_color'],
-                                     ),axis=1)
-    elif kind=='joined':
-        _=df1.loc[:,[col_label,y]].drop_duplicates().apply(lambda x: ax.text(x=start,y=x[y],s=f"{x[col_label]} ",ha='right',va='center',
-                                      # color=x['label_color'],
-                                     ),axis=1)        
+    if show_labels:
+        if kind in [None,'split','separate']: 
+            if not col_sortby is None:
+                df1=df1.sort_values(col_sortby,ascending=False)
+            _=df1.apply(lambda x: ax.text(x=x[col_start],y=x[y],s=f"{x[col_label]} ",ha='right',va='center',
+                                          # color=x['label_color'],
+                                         ),axis=1)
+        elif kind=='joined':
+            _=df1.loc[:,[col_label,y]].drop_duplicates().apply(lambda x: ax.text(x=start,y=x[y],s=f"{x[col_label]} ",ha='right',va='center',
+                                          # color=x['label_color'],
+                                         ),axis=1)        
     # _=df1.apply(lambda x: ax.plot(
     #     [x['start'],x['end']],[x[y],x[y]],
     #     color=colors[x[hue]] if x[hue] in colors else 'w',
@@ -139,10 +156,10 @@ def plot_ranges(
         from chrov.viz.chr import plot_segments
         plot_segments(ax)
 
-    if not hue is None:
+    if not hue is None:    
         set_legend_custom(
             ax,
-            legend2param=colors,
+            legend2param=colors_legend if df1[hue].dtype=='float' else colors,
             param='color',
             lw=lw,
             marker=None,

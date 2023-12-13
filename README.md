@@ -49,7 +49,7 @@ pip install chrov[dev]         # for local testing
 # How to cite?  
 1. Using BibTeX:   
 ```
-@software{Dandage_htsimaging,
+@software{Dandage_chrov,
   title   = {chrov: Chromosome Visualization library in python},
   author  = {Dandage, Rohan},
   year    = {2023},
