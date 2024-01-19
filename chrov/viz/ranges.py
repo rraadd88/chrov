@@ -23,6 +23,7 @@ def plot_ranges(
     col_sortby: str=None,
     show_labels: str= True,
     col_label: str=None,
+    col_label_right: str=None,
     colors: dict=None,
     palette: str= None,
     hue_lim: list= [],
@@ -49,6 +50,7 @@ def plot_ranges(
         col_groupby (str, optional): column to group by. Defaults to None.
         col_sortby (str, optional): column to sort by. Defaults to None.
         col_label (str, optional): column with labels. Defaults to None.
+        col_label_right (str, optional): column with labels to be shown on the right side of the ranges. Defaults to None.
         colors (dict, optional): colors. Defaults to None.
         lw (int, optional): line width. Defaults to 10.
         zorders (dict, optional): z-orders. Defaults to None.
@@ -125,9 +127,15 @@ def plot_ranges(
         if kind in [None,'split','separate']: 
             if not col_sortby is None:
                 df1=df1.sort_values(col_sortby,ascending=False)
-            _=df1.apply(lambda x: ax.text(x=x[col_start],y=x[y],s=f"{x[col_label]} ",ha='right',va='center',
+            _=df1.apply(lambda x: ax.text(x=x[col_start],y=x[y],s=f"{x[col_label]} ",
+                                          ha='right',va='center',
                                           # color=x['label_color'],
                                          ),axis=1)
+            if not col_label_right is None:
+                _=df1.apply(lambda x: ax.text(x=x[col_end],y=x[y],s=f"{x[col_label_right]} ",
+                                              ha='left',va='center',
+                                              # color=x['label_color'],
+                                             ),axis=1)                
         elif kind=='joined':
             _=df1.loc[:,[col_label,y]].drop_duplicates().apply(lambda x: ax.text(x=start,y=x[y],s=f"{x[col_label]} ",ha='right',va='center',
                                           # color=x['label_color'],

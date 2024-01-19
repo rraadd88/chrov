@@ -174,6 +174,7 @@ def plot_arm(
     y: float = 0,
     lw: float = 10,
     ec: str='k',
+    color_centromer='#dbc1c1',
     pi_span: float=1,
     pi_start: int=0,
     pi_end: int=None,
@@ -253,7 +254,7 @@ def plot_arm(
         *_pre_xys([x[col_start],x[col_end]],[y,y],**kws_pre_xys),
         
         lw=lw*0.75,solid_capstyle='butt',
-        color='lightcoral', ##F5B8B7
+        color=color_centromer,#'lightcoral', ##F5B8B7
         zorder=2,clip_on=False,
         ),axis=1)
     ## outlines
