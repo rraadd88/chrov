@@ -203,7 +203,7 @@ def plot_arm(
     
     if isinstance(data,dict):
         data=pd.DataFrame(data)
-    assert data['chromosome'].nunique()==1, "multiple chromosomes provided"
+    assert data['chromosome'].nunique()==1, f"multiple chromosomes provided: {data['chromosome'].unique()}"
     start,end=data[col_start].min(),data[col_end].max()
     if ax is None:
         fig,ax=plt.subplots(figsize=[5,1])
@@ -232,43 +232,46 @@ def plot_arm(
             kws_pre_xys['interval']=(end-start)/(100*polar_smoothness_scale)
     else:
         kws_pre_xys['polar']=False
-    ## cytobands
-    data.loc[data['cytoband type'].str.startswith('gpos'),:].apply(lambda x: ax.plot(
-        *_pre_xys(
-            [x[col_start],x[col_end]],[y,y],**kws_pre_xys),
-        
-        lw=lw,solid_capstyle='butt',
-        alpha=int(x['cytoband type'].replace('gpos',''))*0.01,
-        color='k',zorder=2,clip_on=False,
-        ),axis=1)
-    data.loc[data['cytoband type'].str.startswith('gneg'),:].apply(lambda x: ax.plot(
-        *_pre_xys(
-            [x[col_start],x[col_end]],[y,y],**kws_pre_xys),
-        
-        lw=lw,solid_capstyle='butt',
-        color='w',alpha=1,
-        zorder=1,clip_on=False,
-        ),axis=1)
-    ## centromere
-    data.loc[(data['cytoband type']=='acen'),:].log().apply(lambda x: ax.plot(
-        *_pre_xys([x[col_start],x[col_end]],[y,y],**kws_pre_xys),
-        
-        lw=lw*0.75,solid_capstyle='butt',
-        color=color_centromer,#'lightcoral', ##F5B8B7
-        zorder=2,clip_on=False,
-        ),axis=1)
-    ## outlines
-    start_line,end_line=data.query("`cytoband type`!='acen'").agg({col_start:min,col_end:max}).tolist()
-    ax.plot(
-        *_pre_xys([start_line+offx,end_line-offx],[y,y],**kws_pre_xys),
-        lw=lw+2, solid_capstyle=solid_capstyle,
-        color=ec,zorder=1,clip_on=False
-        )
-    ax.plot(
-        *_pre_xys([start_line+offx,end_line-offx],[y,y],**kws_pre_xys),
-        lw=lw, solid_capstyle=solid_capstyle,
-        color='w',zorder=1,clip_on=False
-        )
+    if not 'cytoband type' in data:
+        logging.warning('cytoband type not found in the data')
+    else:
+        ## cytobands
+        data.loc[data['cytoband type'].str.startswith('gpos'),:].apply(lambda x: ax.plot(
+            *_pre_xys(
+                [x[col_start],x[col_end]],[y,y],**kws_pre_xys),
+
+            lw=lw,solid_capstyle='butt',
+            alpha=int(x['cytoband type'].replace('gpos',''))*0.01,
+            color='k',zorder=2,clip_on=False,
+            ),axis=1)
+        data.loc[data['cytoband type'].str.startswith('gneg'),:].apply(lambda x: ax.plot(
+            *_pre_xys(
+                [x[col_start],x[col_end]],[y,y],**kws_pre_xys),
+
+            lw=lw,solid_capstyle='butt',
+            color='w',alpha=1,
+            zorder=1,clip_on=False,
+            ),axis=1)
+        ## centromere
+        data.loc[(data['cytoband type']=='acen'),:].log().apply(lambda x: ax.plot(
+            *_pre_xys([x[col_start],x[col_end]],[y,y],**kws_pre_xys),
+
+            lw=lw*0.75,solid_capstyle='butt',
+            color=color_centromer,#'lightcoral', ##F5B8B7
+            zorder=2,clip_on=False,
+            ),axis=1)
+        ## outlines
+        start_line,end_line=data.query("`cytoband type`!='acen'").agg({col_start:'min',col_end:'max'}).tolist()
+        ax.plot(
+            *_pre_xys([start_line+offx,end_line-offx],[y,y],**kws_pre_xys),
+            lw=lw+2, solid_capstyle=solid_capstyle,
+            color=ec,zorder=1,clip_on=False
+            )
+        ax.plot(
+            *_pre_xys([start_line+offx,end_line-offx],[y,y],**kws_pre_xys),
+            lw=lw, solid_capstyle=solid_capstyle,
+            color='w',zorder=1,clip_on=False
+            )
     if not test:
         ax.axis('off')
     _format_polar_subplot(

@@ -20,7 +20,9 @@ def plot_ranges(
     cytobands: dict=None,
     cytobands_y: float = None,
     col_groupby: str=None,
+    group_x: float=-0.22,
     col_sortby: str=None,
+    sort_ascending: bool=False,
     show_labels: str= True,
     col_label: str=None,
     col_label_right: str=None,
@@ -84,7 +86,7 @@ def plot_ranges(
         col_label=col_id
         
     if not col_sortby is None:
-        df1=df1.sort_values(col_sortby,ascending=False)
+        df1=df1.sort_values(col_sortby,ascending=sort_ascending)
         
     if y is None:
         if kind in [None,'split','separate']: 
@@ -194,7 +196,7 @@ def plot_ranges(
             axis='y',
             fmt='group',
             sep=":",
-            group_x=-0.22, ## todo: infer
+            group_x=group_x, ## todo: infer
             test=test,
         )
     # else:
