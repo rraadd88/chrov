@@ -124,9 +124,10 @@ def annot_labels(
                     df[colx].rank(),
                     range2=range2
                        ).tolist()
+            del range2
         assert len(l1)==len(df1)
         df1[col_labelx]=l1
-        del l1,range2
+        del l1
         # print(df1)
     ## annotations
     # scaled by the distance between the data plot and the cromosomes

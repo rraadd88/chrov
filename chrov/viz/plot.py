@@ -109,7 +109,7 @@ def plot_seaborn(
                 y=ax.get_rmax()/2.,
                 s=coly,
                 rotation=label_position if label_position!=180 else 0,
-                ha='center',va='center'
+                ha='center',va='top'
                )
         _format_polar_subplot(ax=ax,
                               xlim=xlim,
