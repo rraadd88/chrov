@@ -317,7 +317,7 @@ def plot_chrom(
     if not 'range2' in kws_plot_arm['kws_pre_xys']:
         assert pi_span>0 and pi_span<=2 
         kws_plot_arm['kws_pre_xys']['range2']=_get_pi_range(pi_span=pi_span,pi_start=pi_start,pi_end=pi_end)
-    _=data.sort_values(col_start).groupby(col_arm,sort=False).apply(lambda df: plot_arm(
+    _=data.sort_values(col_start).groupby(col_arm,sort=False,observed=False).apply(lambda df: plot_arm(
         data=df,
         col_start=col_start,
         col_end=col_end,
@@ -465,19 +465,19 @@ def _concat_chroms(
     )
     ## end positions in the order along genome (contatenated chroms)
     if genome_ends is None:
-        genome_ends=data.groupby('chromosome',sort=False)[col_end].max().cumsum()
+        genome_ends=data.groupby('chromosome',sort=False,observed=False)[col_end].max().cumsum()
         
     ### .. of previous chromosome
     _genome_ends=genome_ends.shift(fill_value=0).to_dict()
 
     if test:
-        print(data.groupby('chromosome',sort=False)[col_end].max())
+        print(data.groupby('chromosome',sort=False,observed=False)[col_end].max())
         print(_genome_ends)
 
     df1=(data
         .assign(
             **{
-                'chrom i': lambda df: df.groupby('chromosome',sort=False).ngroup(), 
+                'chrom i': lambda df: df.groupby('chromosome',sort=False,observed=False).ngroup(), 
                 col_chrom_start: lambda df: df['chromosome'].map(_genome_ends).astype(int)+1,
                 col_chrom_end: lambda df: df['chromosome'].map(genome_ends),        
             }
@@ -603,10 +603,10 @@ def plot_chroms(
         test=test,
         )
     
-    start,end=df1.agg({'genome start':min,'genome end':max}).tolist()
+    start,end=df1.agg({'genome start':'min','genome end':'max'}).tolist()
     ## chromosomes
     _=(df1
-       .groupby('chromosome',sort=False)
+       .groupby('chromosome',sort=False,observed=False)
        .apply(lambda df: plot_chrom(
             data=df,
             col_start='genome start',
@@ -625,10 +625,10 @@ def plot_chroms(
       )
 
     ## vspans
-    _xlim=df1.agg({'genome start':min,'genome end':max}).tolist()
+    _xlim=df1.agg({'genome start':'min','genome end':'max'}).tolist()
     ax.set(xlim=_xlim if not ax.name=='polar' else rescale(_xlim,range2=kws_plot_arm['kws_pre_xys']['range2']))
 
-    df2=df1.groupby('chromosome',sort=False).agg({'genome start':min,'genome end':max,'chrom i':min}).reset_index()
+    df2=df1.groupby('chromosome',sort=False,observed=False).agg({'genome start':'min','genome end':'max','chrom i':'min'}).reset_index()
     if ax.name=='polar':
         df_=df2.apply(lambda x: rescale([x['genome start'],x['genome end']],range1=[start,end],range2=kws_plot_arm['kws_pre_xys']['range2'],),axis=1).apply(pd.Series)
         df_.columns=['genome start theta','genome end theta']

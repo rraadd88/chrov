@@ -111,7 +111,7 @@ def annot_labels(
             })
         )
         l1=[]
-        for name,df in df1.groupby(f'{colx} quadrant'):
+        for name,df in df1.groupby(f'{colx} quadrant',observed=False):
             # print(name.left,name.right,df[colx].nunique())
             if df[colx].nunique()==0:
                 continue
