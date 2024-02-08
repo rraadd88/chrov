@@ -19,6 +19,7 @@ def plot_with_chroms(
     off: float=None,
     offy: float=None,
     chrom_y: float=0,
+    show_genome: bool=False,
     arc: bool=True,
     pi_span: float=1,
     pi_start: int=0,
@@ -72,7 +73,9 @@ def plot_with_chroms(
         ax_data_external=True
     if col_start is None and xkind=='loci':
         col_start=colx
-    cytobands=cytobands.query(expr=f"`chromosome` == {data['chromosome'].drop_duplicates().tolist()}")
+        
+    if not show_genome:
+        cytobands=cytobands.query(expr=f"`chromosome` == {data['chromosome'].drop_duplicates().tolist()}")
     
     # if off is None:
     #     if not arc:
@@ -170,4 +173,8 @@ def plot_with_chroms(
         **kws_annot_labels,
         test=test,
         )
-    return fig
+    # return fig
+    return {"chrom":ax_chrom,'data': ax_data,}
+
+from functools import partial
+plot_with_genome=partial(plot_with_chroms, show_genome=True,)

@@ -97,6 +97,8 @@ def plot_seaborn(
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
     else:
+        if pi_start==0 and pi_span==2:
+            ax.set_rlabel_position(0)            
         if pi_start==0 and pi_span>=1:
             ax.set_rlabel_position(180)
         else:
