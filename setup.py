@@ -3,7 +3,7 @@
 
 ### release new version
 
-    git commit -am "version bump";git push origin master
+    git commit -am "version bump";git push public main
     python setup.py --version
     git tag -a v$(python setup.py --version) -m "upgrade";git push --tags
 
@@ -56,7 +56,7 @@ extras_require['all']=list(set(extras_require['all']))
 # main setup command
 setuptools.setup(
     name='chrov',
-    version='0.0.1',
+    version='0.0.2',
     author='Rohan Dandage',
     author_email='rohanadandage@gmail.com',
     url='https://github.com/rraadd88/chrov',
