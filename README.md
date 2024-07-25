@@ -619,7 +619,6 @@ plot_ranges(
     cytobands: dict = None,
     cytobands_y: float = None,
     col_groupby: str = None,
-    col_sortby: str = None,
     col_label: str = None,
     colors: dict = None,
     lw: int = 10,
@@ -648,7 +647,6 @@ Plot ranges.
  - <b>`cytobands`</b> (dict, optional):  cytobands to plot the chromosomes. Defaults to None. 
  - <b>`cytobands_y`</b> (float, optional):  cytobands y-position. Defaults to None. 
  - <b>`col_groupby`</b> (str, optional):  column to group by. Defaults to None. 
- - <b>`col_sortby`</b> (str, optional):  column to sort by. Defaults to None. 
  - <b>`col_label`</b> (str, optional):  column with labels. Defaults to None. 
  - <b>`colors`</b> (dict, optional):  colors. Defaults to None. 
  - <b>`lw`</b> (int, optional):  line width. Defaults to 10. 

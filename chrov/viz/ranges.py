@@ -28,7 +28,7 @@ def plot_ranges(
     col_label: str=None,
     col_label_right: str=None,
     colors: dict=None,
-    palette: str= None,
+    palette: str= 'Set2',
     hue_lim: list= [],
     lw: int = 10,
     zorders: dict=None,
