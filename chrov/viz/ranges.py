@@ -12,16 +12,17 @@ def plot_ranges(
     col_id: str,
     col_start: str,
     col_end: str,
-    end: int,
-    start: int=0,
+    start: int=None,
+    end: int= None,
     hue: str= None,
     y=None, # rank
     kind=None,
+    strand: str='+',
     cytobands: dict=None,
     cytobands_y: float = None,
     col_groupby: str=None,
     group_x: float=-0.22,
-    col_sortby: str=None,
+    # col_sortby: str=None,
     sort_ascending: bool=False,
     show_labels: str= True,
     col_label: str=None,
@@ -33,6 +34,7 @@ def plot_ranges(
     zorders: dict=None,
     show_segments: bool=False,
     xtick_interval:float=None,
+    unit: str='coordinate (bp)',
     test: bool=False,
     ax: plt.Axes=None,
     )-> plt.Axes:
@@ -72,6 +74,13 @@ def plot_ranges(
         ax=plt.gca()
     from roux.viz.colors import saturate_color
     from roux.viz.ax_ import set_legend_custom
+    
+    if start is None:
+        start=data[col_start].min()
+    if end is None:
+        end=data[col_end].max()
+
+    assert not all(data[col_start]==data[col_end]), "lengths of all ranges is 0."
     ## trim data
     df1=(data
         # .sort_values(col_start,ascending=False)
@@ -85,8 +94,8 @@ def plot_ranges(
     if col_label is None:
         col_label=col_id
         
-    if not col_sortby is None:
-        df1=df1.sort_values(col_sortby,ascending=sort_ascending)
+    # if not col_sortby is None:
+    #     df1=df1.sort_values(col_sortby,ascending=sort_ascending)
         
     if y is None:
         if kind in [None,'split','separate']: 
@@ -117,7 +126,7 @@ def plot_ranges(
                 colors=dict(zip(df1[hue].unique(),colors))        
     if zorders is None:
         zorders={}
-    
+
     ## lines
     _=df1.apply(lambda x: ax.hlines(y=x[y],xmin=x[col_start],xmax=x[col_end],
                                     color=colors[x[hue]] if not hue is None else None,
@@ -126,22 +135,41 @@ def plot_ranges(
     ax.invert_yaxis()
     # labels
     if show_labels:
-        if kind in [None,'split','separate']: 
-            if not col_sortby is None:
-                df1=df1.sort_values(col_sortby,ascending=False)
-            _=df1.apply(lambda x: ax.text(x=x[col_start],y=x[y],s=f"{x[col_label]} ",
-                                          ha='right',va='center',
-                                          # color=x['label_color'],
-                                         ),axis=1)
+        if kind in [None,'split','separate']:            
+            _=df1.apply(lambda x: ax.text(
+                x=x[col_start],
+                y=x[y],
+                s=f"{x[col_label]} ",
+                ha='right',va='center',
+                # color=x['label_color'],
+                ),
+            axis=1)
             if not col_label_right is None:
-                _=df1.apply(lambda x: ax.text(x=x[col_end],y=x[y],s=f"{x[col_label_right]} ",
-                                              ha='left',va='center',
-                                              # color=x['label_color'],
-                                             ),axis=1)                
-        elif kind=='joined':
-            _=df1.loc[:,[col_label,y]].drop_duplicates().apply(lambda x: ax.text(x=start,y=x[y],s=f"{x[col_label]} ",ha='right',va='center',
-                                          # color=x['label_color'],
-                                         ),axis=1)        
+                _=df1.apply(lambda x: ax.text(
+                        x=x[col_end],
+                        y=x[y],
+                        s=f"{x[col_label_right]} ",
+                        ha='left',
+                        va='center',
+                        # color=x['label_color'],
+                        ),
+                        axis=1,
+                       )                
+        elif kind.lower().startswith('join'):
+            _=(
+                df1
+                .loc[:,[col_label,y]]
+                .drop_duplicates()
+                .apply(lambda x: ax.text(
+                    x=start if strand!='-' else end,
+                    y=x[y],
+                    s=f"{x[col_label]} ",
+                    ha='right',
+                    va='center',
+                    # color=x['label_color'],
+                    ),
+                    axis=1)
+              )        
     # _=df1.apply(lambda x: ax.plot(
     #     [x['start'],x['end']],[x[y],x[y]],
     #     color=colors[x[hue]] if x[hue] in colors else 'w',
@@ -206,7 +234,8 @@ def plot_ranges(
     ax.xaxis.tick_top()
     ax.xaxis.set_label_position('top')
     ax.spines['top'].set_color('k')
-    ax.spines['top'].set_position(('data', cytobands_y+0.25))
+    if not cytobands_y is None:
+        ax.spines['top'].set_position(('data', cytobands_y+0.25))
     # ax.spines.Spl('none')
     _=plt.setp(ax.spines.values(), zorder=0,color='none')
     # _=plt.setp([ax.get_xticklines(), ax.get_yticklines()], zorder=0)
@@ -220,6 +249,8 @@ def plot_ranges(
     ax.set(
         xlim=[start,end],
         ylim=[df1[y].min()-0.5,df1[y].max()+1.5],
-        xlabel='coordinate (bp)',
+        xlabel=unit,
     )
+    if strand=='-':
+        ax.invert_xaxis()    
     return ax
