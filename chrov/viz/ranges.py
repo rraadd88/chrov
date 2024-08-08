@@ -27,6 +27,7 @@ def plot_ranges(
     show_labels: str= True,
     col_label: str=None,
     col_label_right: str=None,
+    color: str='b',
     colors: dict=None,
     palette: str= 'Set2',
     hue_lim: list= [],
@@ -91,6 +92,8 @@ def plot_ranges(
         }
     ))    
     ## test for unique ids
+    if kind.lower().startswith('join'):
+        col_label=None
     if col_label is None:
         col_label=col_id
         
@@ -129,7 +132,7 @@ def plot_ranges(
 
     ## lines
     _=df1.apply(lambda x: ax.hlines(y=x[y],xmin=x[col_start],xmax=x[col_end],
-                                    color=colors[x[hue]] if not hue is None else None,
+                                    color=colors[x[hue]] if not hue is None else color,
                                     lw=lw
                                    ),axis=1)
     ax.invert_yaxis()
