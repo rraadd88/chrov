@@ -35,7 +35,7 @@ def plot_ranges(
     zorders: dict=None,
     show_segments: bool=False,
     xtick_interval:float=None,
-    unit: str='coordinate (bp)',
+    unit: str='Coordinate (bp)',
     test: bool=False,
     kws_legend:dict={},
     ax: plt.Axes=None,
@@ -135,10 +135,16 @@ def plot_ranges(
         zorders={}
 
     ## lines
-    _=df1.apply(lambda x: ax.hlines(y=x[y],xmin=x[col_start],xmax=x[col_end],
-                                    color=colors[x[hue]] if not hue is None else color,
-                                    lw=lw
-                                   ),axis=1)
+    _=df1.apply(lambda x: 
+        ax.hlines(
+            y=x[y],
+            xmin=x[col_start],
+            xmax=x[col_end],
+            color=colors[x[hue]] if not hue is None else color,
+            lw=lw
+            ),
+            axis=1,
+           )
     ax.invert_yaxis()
     # labels
     if show_labels:
