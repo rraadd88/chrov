@@ -37,6 +37,7 @@ def plot_ranges(
     xtick_interval:float=None,
     unit: str='coordinate (bp)',
     test: bool=False,
+    kws_legend:dict={},
     ax: plt.Axes=None,
     )-> plt.Axes:
     """Plot ranges.
@@ -70,6 +71,8 @@ def plot_ranges(
     Returns:
         plt.Axes: subplot
     """
+    assert len(data)!=0
+    
     if ax is None:
         # fig,ax=plt.subplots(figsize=[3,len(data)*0.05])
         ax=plt.gca()
@@ -92,8 +95,9 @@ def plot_ranges(
         }
     ))    
     ## test for unique ids
-    if kind.lower().startswith('join'):
-        col_label=None
+    if kind is not None:
+        if kind.lower().startswith('join'):
+            col_label=None
     if col_label is None:
         col_label=col_id
         
@@ -208,11 +212,16 @@ def plot_ranges(
             size=10,
             color='k',
             linestyle='-',
-            frameon=False,
-            title=hue,
-            bbox_to_anchor=[0.5,0],loc='upper center',
-            ncol=len(colors),
-        #     **kws,
+            **{
+                **dict(
+                    title=hue,
+                    frameon=False,
+                    bbox_to_anchor=[0.5,0],
+                    loc='upper center',
+                    ncol=3,
+                ),
+                **kws_legend,
+            }
         )    
     ## show groups
     if col_groupby in df1:
