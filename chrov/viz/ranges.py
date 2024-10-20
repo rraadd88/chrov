@@ -87,6 +87,9 @@ def plot_ranges(
     assert not all(data[col_start]==data[col_end]), "lengths of all ranges is 0."
     ## trim data
     df1=(data
+        .log.dropna(
+            subset=[col_id,col_start,col_end]
+        )
         # .sort_values(col_start,ascending=False)
         .assign(
         **{
@@ -142,23 +145,23 @@ def plot_ranges(
             xmax=x[col_end],
             color=colors[x[hue]] if not hue is None else color,
             lw=lw
-            ),
+            ) if not pd.isnull(x[y]) else None,
             axis=1,
            )
     ax.invert_yaxis()
     # labels
     if show_labels:
         if kind in [None,'split','separate']:            
-            _=df1.apply(lambda x: ax.text(
+            _=data.apply(lambda x: ax.text(
                 x=x[col_start],
                 y=x[y],
                 s=f"{x[col_label]} ",
                 ha='right',va='center',
                 # color=x['label_color'],
-                ),
+                ) if not pd.isnull(x[y]) else None,
             axis=1)
             if not col_label_right is None:
-                _=df1.apply(lambda x: ax.text(
+                _=data.apply(lambda x: ax.text(
                         x=x[col_end],
                         y=x[y],
                         s=f"{x[col_label_right]} ",
@@ -170,7 +173,7 @@ def plot_ranges(
                        )                
         elif kind.lower().startswith('join'):
             _=(
-                df1
+                data
                 .loc[:,[col_label,y]]
                 .drop_duplicates()
                 .apply(lambda x: ax.text(
@@ -225,16 +228,21 @@ def plot_ranges(
                     bbox_to_anchor=[0.5,0],
                     loc='upper center',
                     ncol=3,
+                    handlelength=0.1,
                 ),
                 **kws_legend,
             }
-        )    
+        )
+    
     ## show groups
     if col_groupby in df1:
         df_=df1.loc[:,[y,col_groupby]].drop_duplicates()
         ax.set(
             yticks=df_[y].tolist(),
-            yticklabels=df_.apply(lambda x: f"{x[col_groupby]}:{x[y]}",axis=1),
+            yticklabels=df_.apply(
+                lambda x: f"{x[col_groupby]}:{x[y]}",
+                axis=1,
+            ),
         )
         from roux.viz.ax_ import split_ticklabels
         split_ticklabels(
@@ -254,8 +262,13 @@ def plot_ranges(
     ax.spines['top'].set_color('k')
     if not cytobands_y is None:
         ax.spines['top'].set_position(('data', cytobands_y+0.25))
-    # ax.spines.Spl('none')
-    _=plt.setp(ax.spines.values(), zorder=0,color='none')
+        
+    # removing the ax box lines
+    _=plt.setp(
+        ax.spines.values(),
+        zorder=0,
+        color='none',
+    )
     # _=plt.setp([ax.get_xticklines(), ax.get_yticklines()], zorder=0)
     
     if not xtick_interval is None:
