@@ -108,13 +108,28 @@ def plot_ranges(
     #     df1=df1.sort_values(col_sortby,ascending=sort_ascending)
         
     if y is None:
+        y='y'
         if kind in [None,'split','separate']: 
-            df1=df1.rd.assert_no_dups(col_id).assign(y=np.arange(len(df1)))
+            df1=(df1
+                .rd.assert_no_dups(col_id)
+                .assign(
+                    **{
+                        y:np.arange(len(df1)),
+                    }
+                )
+                )
         elif kind=='joined':
-            df1=df1.assign(y=lambda df: df.groupby(col_id,sort=False)[col_id].ngroup())#.transform(lambda x: range(len(x))))
+            df1=(
+                df1
+                .assign(
+                    **{
+                        y:lambda df: df.groupby(col_id,sort=False)[col_id].ngroup()
+                    }#.transform(lambda x: range(len(x))))
+                    )
+            )
         else:
             raise ValueError(kind)
-        y='y'
+        assert y in df1
     if not hue is None:
         if df1[hue].dtype=='float':
             from roux.viz.colors import get_val2color
@@ -152,7 +167,7 @@ def plot_ranges(
     # labels
     if show_labels:
         if kind in [None,'split','separate']:            
-            _=data.apply(lambda x: ax.text(
+            _=df1.apply(lambda x: ax.text(
                 x=x[col_start],
                 y=x[y],
                 s=f"{x[col_label]} ",
@@ -161,7 +176,7 @@ def plot_ranges(
                 ) if not pd.isnull(x[y]) else None,
             axis=1)
             if not col_label_right is None:
-                _=data.apply(lambda x: ax.text(
+                _=df1.apply(lambda x: ax.text(
                         x=x[col_end],
                         y=x[y],
                         s=f"{x[col_label_right]} ",
@@ -173,7 +188,7 @@ def plot_ranges(
                        )                
         elif kind.lower().startswith('join'):
             _=(
-                data
+                df1
                 .loc[:,[col_label,y]]
                 .drop_duplicates()
                 .apply(lambda x: ax.text(
