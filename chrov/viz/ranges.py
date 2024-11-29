@@ -38,6 +38,7 @@ def plot_ranges(
     unit: str='Coordinate (bp)',
     test: bool=False,
     kws_legend:dict={},
+    kws_hlines:dict={}, 
     ax: plt.Axes=None,
     )-> plt.Axes:
     """Plot ranges.
@@ -159,7 +160,8 @@ def plot_ranges(
             xmin=x[col_start],
             xmax=x[col_end],
             color=colors[x[hue]] if not hue is None else color,
-            lw=lw
+            lw=lw,
+            **kws_hlines,
             ) if not pd.isnull(x[y]) else None,
             axis=1,
            )
