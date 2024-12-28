@@ -56,7 +56,7 @@ extras_require['all']=list(set(extras_require['all']))
 # main setup command
 setuptools.setup(
     name='chrov',
-    version='0.0.2',
+    version='0.0.3',
     author='Rohan Dandage',
     author_email='rohanadandage@gmail.com',
     url='https://github.com/rraadd88/chrov',
