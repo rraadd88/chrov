@@ -20,7 +20,8 @@ with open('README.md', 'r') as fh:
     
 requirements = {
 'base':[
-    "roux @ git+https://github.com/rraadd88/roux.git@master",
+    # "roux @ git+https://github.com/rraadd88/roux.git@master",
+    "roux",
         ## requirements from roux 
         'scipy',
         'seaborn',
