@@ -3,7 +3,7 @@ from testbook import testbook
 import os
 from os import makedirs
 from os.path import exists
-assert len(set(['chrov','examples','tests']) - set(os.listdir('.')))==0
+assert len(set(['modules','examples','tests']) - set(os.listdir('.')))==0
 assert exists('./examples/inputs')
 makedirs('./examples/outputs',exist_ok=True)
     
