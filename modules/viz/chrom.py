@@ -7,6 +7,8 @@ import numpy as np
 from roux.stat.transform import rescale
 from roux.viz.ax_ import get_line_cap_length
 
+import roux.lib.df as rd # noqa
+
 def _to_polar_intrapolate(
     start: int,
     end: int,
