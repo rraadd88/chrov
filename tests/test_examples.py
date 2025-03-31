@@ -4,7 +4,7 @@ import os
 from os import makedirs
 from os.path import exists
 assert len(set(['modules','examples','tests']) - set(os.listdir('.')))==0
-assert exists('./examples/inputs')
+assert exists('./modules/inputs')
 makedirs('./examples/outputs',exist_ok=True)
     
 @testbook('examples/chrov_viz_annot.ipynb', execute=True)
