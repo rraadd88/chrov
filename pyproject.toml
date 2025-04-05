@@ -31,6 +31,33 @@ dependencies = [
     "seaborn>=0.13.2",
     "setuptools>=77.0.3",
 ]
+[dependency-groups]
+dev = [
+    "tox",
+    "tox-gh-actions",
+    "pytest",
+    "jupyter",
+    "ipywidgets",
+    "ipykernel",
+    "black",
+    "coveralls == 3.*",
+    "flake8",
+    "isort",
+    "pytest-cov == 2.*"
+    "testbook",
+    "papermill","
+    
+    # "regex",
+    # lazydocs",
+]
+lint = [
+  "ruff"
+]
+
+[tool.uv.sources]
+roux = { git = "https://github.com/rraadd88/roux.git", rev = "master" }
+pyensembl = { git = "https://github.com/rraadd88/pyensembl.git", rev = "patch-2" }
+
 authors = [
   { name = "rraadd88", email = "rohanadandage@gmail.com" }
 ]
@@ -57,10 +84,6 @@ skip-string-normalization = true
 
 [tool.isort]
 profile = "black"
-
-[tool.uv.sources]
-roux = { git = "https://github.com/rraadd88/roux.git", rev = "master" }
-pyensembl = { git = "https://github.com/rraadd88/pyensembl.git", rev = "patch-2" }
 
 [dependency-groups]
 dev = [
