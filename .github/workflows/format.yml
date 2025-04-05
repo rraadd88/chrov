@@ -2,7 +2,7 @@ name: format
 on:
   push:
     paths:
-      - modules/**
+      - "modules/*"
 
 permissions:
   contents: write

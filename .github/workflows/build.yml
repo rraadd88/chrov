@@ -3,8 +3,12 @@ name: build
 on:
   push:
     branches: "*"
+    paths:
+      - "modules/*"
   pull_request:
     branches: "*"
+    paths:
+      - "modules/*"
 
 jobs:
   build-n-test-n-coverage:

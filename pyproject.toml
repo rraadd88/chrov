@@ -14,7 +14,7 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12"
 ]
-license = { text = "General Public License v. 3" }
+license = "GPL-3.0-or-later"
 readme = "README.md"
 dependencies = [
     "argh>=0.31.3",
