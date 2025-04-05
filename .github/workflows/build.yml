@@ -39,7 +39,7 @@ jobs:
           # pip install -e .
         run: |
           uv sync --all-extras --dev
-          pip install -e .
+          uv pip install -e .
           
       - name: Run the tests
         # run: tox
