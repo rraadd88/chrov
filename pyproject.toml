@@ -1,9 +1,21 @@
 [project]
 name = "chrov"
+description = "Chromosome Visualization library in Python."
+authors = [
+  { name = "rraadd88", email = "rohanadandage@gmail.com" }
+]
+urls = { "Homepage" = "http://github.com/rraadd88/chrov" }
 version = "0.0.3"
-description = "Integrative analysis of multi-omics to detect molecular interactions."
-readme = "README.md"
 requires-python = ">=3.10"
+classifiers = [
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12"
+]
+license = { text = "General Public License v. 3" }
+readme = "README.md"
 dependencies = [
     "argh>=0.31.3",
     "fastcore==1.7.10",
@@ -31,6 +43,7 @@ dependencies = [
     "seaborn>=0.13.2",
     "setuptools>=77.0.3",
 ]
+
 [dependency-groups]
 dev = [
     "tox",
@@ -57,22 +70,6 @@ lint = [
 [tool.uv.sources]
 roux = { git = "https://github.com/rraadd88/roux.git", rev = "master" }
 pyensembl = { git = "https://github.com/rraadd88/pyensembl.git", rev = "patch-2" }
-
-authors = [
-  { name = "rraadd88", email = "rohanadandage@gmail.com" }
-]
-license = { text = "General Public License v. 3" }
-urls = { "Homepage" = "http://github.com/rraadd88/chrov" }
-classifiers = [
-  "Programming Language :: Python",
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12"
-]
 
 [project.scripts]
 chrov = "chrov.run:parser.dispatch"
