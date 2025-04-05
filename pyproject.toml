@@ -45,7 +45,7 @@ dev = [
     "isort",
     "pytest-cov == 2.*",
     "testbook",
-    "papermill","
+    "papermill",
     
     # "regex",
     # lazydocs",
