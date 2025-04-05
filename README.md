@@ -3,7 +3,6 @@
 <a href="#"><img src="./examples/logo.png" align="left" width="40%"></a>
 
 <br>
-<br>
 
 **Chr**omosome **V**isualization library in python.  
 Applicable across scales, from genomes down to protein domains.
