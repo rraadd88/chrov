@@ -18,7 +18,6 @@ Applicable across scales, from genomes down to protein domains.
 <a href="">[![DOI](https://img.shields.io/badge/DOI-zenodo-blue?style=for-the-badge)](https://doi.org/10.5281/zenodo.10211265)</a>  
 
 <br>
-<br>
 
 ## Examples  
 ![image](./examples/image.png)   
