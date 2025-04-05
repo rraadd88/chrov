@@ -107,7 +107,7 @@ pip install chrov[dev]         ## for local testing
 @software{Dandage_chrov,
   title   = {chrov: Chromosome Visualization library in python},
   author  = {Dandage, Rohan},
-  year    = {2023},
+  year    = {2025},
   url     = {https://zenodo.org/doi/10.5281/zenodo.10211265},
   note    = {The URL is a DOI link to the permanent archive of the software.},
 }
