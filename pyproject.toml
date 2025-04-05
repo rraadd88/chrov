@@ -85,11 +85,6 @@ skip-string-normalization = true
 [tool.isort]
 profile = "black"
 
-[dependency-groups]
-dev = [
-    "ipykernel>=6.29.5",
-]
-
 [tool.setuptools]
 package-dir = { "chrov" = "modules" }
 packages = ["chrov"]
