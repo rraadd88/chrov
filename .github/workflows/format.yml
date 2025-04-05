@@ -1,5 +1,8 @@
 name: format
-on:  [workflow_dispatch, pull_request, push]
+on:
+  push:
+    paths:
+      - modules/**
 
 permissions:
   contents: write
