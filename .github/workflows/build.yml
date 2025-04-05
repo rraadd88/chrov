@@ -37,8 +37,10 @@ jobs:
           # # pip install -e .[test]
           # pip install tox tox-gh-actions pytest jupyter ipywidgets ipykernel black "coveralls == 3.*" flake8 isort "pytest-cov == 2.*" testbook papermill lazydocs regex
           # pip install -e .
-        run: uv sync --all-extras --dev
-      
+        run: |
+          uv sync --all-extras --dev
+          pip install -e .
+          
       - name: Run the tests
         # run: tox
         run: uv run tox
