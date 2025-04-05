@@ -112,7 +112,7 @@ pip install chrov[dev]         ## for local testing
 
 3. Using citation information from [CITATION.CFF file](https://github.com/rraadd88/chrov/blob/main/CITATION.cff).  
 
-## Future 🐦‍⬛ directions, for which contributions are welcome 
+## Future directions for 🐦‍⬛ 
 - [ ] Set subplot sizes by default: automate setting off and `offy`.
 - [ ] Compatibility of seaborn plots with polar layout.
 - [ ] Layering the interval vizualizations on the polar layout.
