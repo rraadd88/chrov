@@ -87,6 +87,8 @@ Applicable across scales, from genomes down to protein domains.
 [📈🍭Integration of basic plots e.g. stem/lollipop plot ](https://github.com/rraadd88/chrov/blob/master/examples/chrov_viz_figure_stem.ipynb)  
 [↔️↔️Visualization of intervals/ranges/segments along a chromosome arm](https://github.com/rraadd88/chrov/blob/master/examples/chrov_viz_ranges.ipynb)  
 
+<br>
+
 ## Installation
     
 ```
@@ -96,6 +98,8 @@ With additional dependencies as required:
 ```
 pip install chrov[dev]         ## for local testing
 ```
+
+<br>
 
 ## How to cite?  
 1. Using BibTeX:   
@@ -122,6 +126,8 @@ pip install chrov[dev]         ## for local testing
 ## Similar projects
 - https://github.com/moshi4/pyCirclize
 - https://github.com/ponnhide/pyCircos
+
+<br>
 
 ## API
 <!-- markdownlint-disable -->
