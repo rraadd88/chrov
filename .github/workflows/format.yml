@@ -16,7 +16,7 @@ jobs:
         run: |
           pip install --user ruff
           ruff check modules --fix --ignore E402,E722,F841,E741
-          ruff format roux
+          ruff format modules
       - name: ruff commit
         continue-on-error: true
         uses: stefanzweifel/git-auto-commit-action@v4
