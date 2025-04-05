@@ -5,6 +5,7 @@ from chrov.viz.plot import plot_seaborn
 from chrov.viz.chrom import annot_chroms, _concat_chroms
 from chrov.viz.annot import annot_labels
 
+
 def plot_with_chroms(
     data: pd.DataFrame,
     cytobands: pd.DataFrame,
@@ -13,25 +14,25 @@ def plot_with_chroms(
     coly: str,
     col_label: str,
     va: str,
-    col_start: str=None,
-    xkind: str='loci', # colx contains coordinates
-    coffy: str=None,
-    off: float=None,
-    offy: float=None,
-    chrom_y: float=0,
-    show_genome: bool=False,
-    arc: bool=True,
-    pi_span: float=1,
-    pi_start: int=0,
-    pi_end: int=None,
-    fig: plt.Figure=None,
-    figsize: list=None,
-    ax_data: plt.Axes=None,
-    kws_seaborn: dict={},
-    kws_annot_chroms: dict={},
-    kws_annot_labels: dict={},
-    test: bool=False,
-    ) -> plt.Figure:
+    col_start: str = None,
+    xkind: str = "loci",  # colx contains coordinates
+    coffy: str = None,
+    off: float = None,
+    offy: float = None,
+    chrom_y: float = 0,
+    show_genome: bool = False,
+    arc: bool = True,
+    pi_span: float = 1,
+    pi_start: int = 0,
+    pi_end: int = None,
+    fig: plt.Figure = None,
+    figsize: list = None,
+    ax_data: plt.Axes = None,
+    kws_seaborn: dict = {},
+    kws_annot_chroms: dict = {},
+    kws_annot_labels: dict = {},
+    test: bool = False,
+) -> plt.Figure:
     """Plot with chromosomes.
 
     Args:
@@ -63,31 +64,33 @@ def plot_with_chroms(
         plt.Figure: figure
     """
     if fig is None and figsize is not None:
-        fig=plt.figure(figsize=figsize)
+        fig = plt.figure(figsize=figsize)
     else:
-        fig=plt.gcf()
+        fig = plt.gcf()
     if ax_data is None:
-        ax_data=plt.subplot(polar=arc)
-        ax_data_external=False
+        ax_data = plt.subplot(polar=arc)
+        ax_data_external = False
     else:
-        ax_data_external=True
-    if col_start is None and xkind=='loci':
-        col_start=colx
-        
+        ax_data_external = True
+    if col_start is None and xkind == "loci":
+        col_start = colx
+
     if not show_genome:
-        cytobands=cytobands.query(expr=f"`chromosome` == {data['chromosome'].drop_duplicates().tolist()}")
-    
+        cytobands = cytobands.query(
+            expr=f"`chromosome` == {data['chromosome'].drop_duplicates().tolist()}"
+        )
+
     # if off is None:
     #     if not arc:
     #         off=0.9
     #     else:
     #         off=0.1
-    data=data.astype({'chromosome':str})
+    data = data.astype({"chromosome": str})
     ## background
-    ax_chrom,df1=annot_chroms(
+    ax_chrom, df1 = annot_chroms(
         # ax=ax_data, # data
         data=cytobands,
-        chromosomes=data['chromosome'].unique(),
+        chromosomes=data["chromosome"].unique(),
         ax_chrom=None,
         chrom_y=chrom_y,
         out_data=True,
@@ -99,49 +102,48 @@ def plot_with_chroms(
             offy=offy,
             va=va,
             ax_with=ax_data,
-            ),
+        ),
         **kws_annot_chroms,
     )
-    ax_chrom.set(ylim=[-0.6,0.1])
+    ax_chrom.set(ylim=[-0.6, 0.1])
     # return
-        
-    if xkind=='loci':
+
+    if xkind == "loci":
         ## get coordinates of the labels on the joined chromosomes
-        colx_data=colx+' chroms'
-        col_start=colx_data
-        df2=_concat_chroms(
-                data,
-                col_start=colx,
-                col_end=colx,
-                col_chroms_start=colx_data,
-                col_chroms_end=colx_data,
-                genome_ends=df1.set_index('chromosome')['genome end'],
-            )
+        colx_data = colx + " chroms"
+        col_start = colx_data
+        df2 = _concat_chroms(
+            data,
+            col_start=colx,
+            col_end=colx,
+            col_chroms_start=colx_data,
+            col_chroms_end=colx_data,
+            genome_ends=df1.set_index("chromosome")["genome end"],
+        )
     else:
-        colx_data=colx
-        _col_start=col_start
-        col_start+=' chroms'
-        data=_concat_chroms(
-                data,
-                col_start=_col_start,
-                col_end=_col_start,
-                col_chroms_start=col_start,
-                col_chroms_end=col_start,
-                genome_ends=df1.set_index('chromosome')['genome end'],
-            )
-        
+        colx_data = colx
+        _col_start = col_start
+        col_start += " chroms"
+        data = _concat_chroms(
+            data,
+            col_start=_col_start,
+            col_end=_col_start,
+            col_chroms_start=col_start,
+            col_chroms_end=col_start,
+            genome_ends=df1.set_index("chromosome")["genome end"],
+        )
+
     if not ax_data_external:
         ## plot: middle
-        ax_data,df3=plot_seaborn(
+        ax_data, df3 = plot_seaborn(
             df2,
             colx=colx_data,
             coly=coly,
             kind=kind,
-            range1_chroms=[1, ## for polar
-                           (cytobands
-                           .groupby('chromosome',sort=False)['end']
-                           .max().sum())
-                          ],
+            range1_chroms=[
+                1,  ## for polar
+                (cytobands.groupby("chromosome", sort=False)["end"].max().sum()),
+            ],
             arc=arc,
             pi_span=pi_span,
             pi_start=pi_start,
@@ -150,19 +152,19 @@ def plot_with_chroms(
             ax=ax_data,
             # fig=fig,
             **kws_seaborn,
-            )
-        df3=df3 if coffy is None else df3.query(expr=f"`{coly}` > {coffy}")
+        )
+        df3 = df3 if coffy is None else df3.query(expr=f"`{coly}` > {coffy}")
     else:
-        if xkind=='loci':
-            df3=df2.copy()
+        if xkind == "loci":
+            df3 = df2.copy()
         else:
-            df3=data.copy()            
+            df3 = data.copy()
     ax_data.set(zorder=1)
     ## labels: top
     ## filter for labels
     annot_labels(
-        ax_chrom=ax_chrom, # A
-        ax=ax_data, # B:data
+        ax_chrom=ax_chrom,  # A
+        ax=ax_data,  # B:data
         colx=colx_data,
         col_start=col_start,
         coly=coly,
@@ -172,9 +174,17 @@ def plot_with_chroms(
         fig=fig,
         **kws_annot_labels,
         test=test,
-        )
+    )
     # return fig
-    return {"chrom":ax_chrom,'data': ax_data,}
+    return {
+        "chrom": ax_chrom,
+        "data": ax_data,
+    }
+
 
 from functools import partial
-plot_with_genome=partial(plot_with_chroms, show_genome=True,)
+
+plot_with_genome = partial(
+    plot_with_chroms,
+    show_genome=True,
+)
