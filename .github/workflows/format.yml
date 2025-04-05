@@ -1,0 +1,28 @@
+name: format
+on:
+  push:
+    paths:
+      - "modules/*"
+
+permissions:
+  contents: write
+
+jobs:
+  ruff:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: ruff
+        continue-on-error: true
+        run: |
+          pip install --user ruff
+          ruff check modules --fix --ignore E402,E722,F841,E741
+          ruff format modules
+      - name: ruff commit
+        continue-on-error: true
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          # github_token: ${{ secrets.GITHUB_TOKEN }}          
+          commit_message: '[CI bot] linting and formating (ruff)'

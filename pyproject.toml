@@ -1,0 +1,93 @@
+[project]
+name = "chrov"
+description = "Chromosome Visualization library in Python."
+authors = [
+  { name = "rraadd88", email = "rohanadandage@gmail.com" }
+]
+urls = { "Homepage" = "http://github.com/rraadd88/chrov" }
+version = "0.0.4"
+requires-python = ">=3.10"
+classifiers = [
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12"
+]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+dependencies = [
+    "argh>=0.31.3",
+    "fastcore==1.7.10",
+    # "ipykernel>=6.29.5",
+    # "jupyter>=1.1.1",
+    # "mudata>=0.3.1",
+    # "networkx>=3.4.2",
+    # "numpy<2",
+    # "omegaconf>=2.3.0",
+    # "papermill>=2.6.0",
+    # "pingouin==0.5.5",
+    # "pyarrow>=19.0.1",
+    # "roux",
+    # "sluf>=0.1.0",
+    # "statsmodels==0.14.2",
+    "matplotlib>=3.10.1",
+    "nbdev==2.3.31",
+    "numpy<2",
+    "pandas>=2",
+    "pybiomart==0.2.0",
+    "pyensembl",
+    "pyranges>=0.1.4",
+    "roux",
+    "scipy>=1.15.2",
+    "seaborn>=0.13.2",
+    "setuptools>=77.0.3",
+]
+
+[dependency-groups]
+dev = [
+    "tox",
+    "tox-gh-actions",
+    "pytest",
+    "jupyter",
+    "ipywidgets",
+    "ipykernel",
+    "black",
+    "coveralls == 3.*",
+    "flake8",
+    "isort",
+    "pytest-cov == 2.*",
+    "testbook",
+    "papermill",
+    
+    # "regex",
+    # lazydocs",
+]
+lint = [
+  "ruff"
+]
+
+[tool.uv.sources]
+roux = { git = "https://github.com/rraadd88/roux.git", rev = "master" }
+pyensembl = { git = "https://github.com/rraadd88/pyensembl.git", rev = "patch-2" }
+
+[project.scripts]
+chrov = "chrov.run:parser.dispatch"
+
+[tool.black]
+experimental-string-processing = true
+line-length = 120
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+
+[tool.setuptools]
+package-dir = { "chrov" = "modules" }
+packages = ["chrov"]
+
+[tool.setuptools.package-data]
+chrov = [
+    "modules/*.py", 
+    # "notebooks*/*.ipynb"
+]

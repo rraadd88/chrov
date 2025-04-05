@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+title: 'chrov:'
+message: If you use this software, please cite it using the metadata from this file.
+type: software
+authors:
+- given-names: Rohan
+  family-names: Dandage
+  orcid: https://orcid.org/0000-0002-6421-2067
+identifiers:
+- type: doi
+  value: doi/10.5281/zenodo.10211265
+repository-code: https://github.com/rraadd88/chrov
+version: v0.0.1
+date-released: '2023-11-27'
