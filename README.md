@@ -4,8 +4,7 @@
 
 <br>
 
-**Chr**omosome **V**isualization library in python.  
-Applicable across scales, from genomes down to protein domains.
+Genomes to proteins, multi-level visualization library
 
 <a href="https://github.com/rraadd88/chrov#examples">Examples</a>
 ·
@@ -17,6 +16,7 @@ Applicable across scales, from genomes down to protein domains.
 <a href="">[![GNU License](https://img.shields.io/github/license/rraadd88/chrov.svg?style=for-the-badge)](https://github.com/rraadd88/chrov/blob/main/LICENSE)</a>  
 <a href="">[![Downloads](https://img.shields.io/pypi/dm/chrov?style=for-the-badge)](https://pepy.tech/project/chrov)</a>  
 
+<br>
 <br>
 
 ## Examples  
