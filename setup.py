@@ -56,7 +56,7 @@ extras_require['all']=list(set(extras_require['all']))
 
 setuptools.setup(
     name='chrov',
-    version='0.0.3',
+    version='0.0.4',
     description='Convenience functions.',
     long_description=long_description,
     long_description_content_type="text/markdown",
