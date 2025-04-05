@@ -126,7 +126,8 @@ pip install chrov[dev]         ## for local testing
 ## Similar projects
 - https://github.com/moshi4/pyCirclize
 - https://github.com/ponnhide/pyCircos
-
+- (R) https://github.com/ivanek/Gviz
+ 
 <br>
 
 ## API
