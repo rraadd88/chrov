@@ -80,3 +80,4 @@ target/
 *.bak
 examples/outputs/
 build/
+.pybiomart.sqlite
