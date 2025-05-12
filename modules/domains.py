@@ -135,7 +135,11 @@ def get_domains(
             df0_doms,
             min_length=10,
         )
+        if df1['d.start'].min()==0:
+            logging.warning('zero-based indexing found converted to 1-based since these are protein sequences.. ')
+            df1['d.start']=df1['d.start']+1
         to_table(df1, outp)
+        
         logging.info(f"cache path: {outp}")
     else:
         logging.warning(f"read from cache: {outp}")
