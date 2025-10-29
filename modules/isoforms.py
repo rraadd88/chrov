@@ -537,6 +537,9 @@ def plot_isoforms(
             #     expr=f"~(`{feat_id}`.isnull())"
             # )
             
+            # logging.info(df3.to_dict(orient='records'))
+            # logging.info(feats.to_dict(orient='records'))
+            
             df3 = intersect_with_feats(
                 df3,
                 feats,
@@ -550,7 +553,8 @@ def plot_isoforms(
             )
             
             if df3 is None:
-                logging.error("intersect_with_feats: no overlap found")
+                logging.error("plot_isoforms: intersect_with_feats: no overlap found")
+                
                 return 
             else:
                 df3.log("t.id")

@@ -706,13 +706,16 @@ def annot_feats(
     #     df1.to_dict(orient='records'),
     #      )
     ### intersect with the sequences
-    df3 = intersect_with_feats(
-        (data_back
+    data_back_=(
+        data_back
             .assign(
                 **{
                     'e.start': lambda df: df['e.start']-1}
                 )
-        ), ## fix untill switched to bedtools
+        )
+    
+    df3 = intersect_with_feats(
+        data_back_, ## fix untill switched to bedtools
         df1,
         seq_id="t.id",
         feat1_id="e.id",
@@ -725,7 +728,10 @@ def annot_feats(
         feat2_prefix=feat_prefix,
     )
     if df3 is None:
-        logging.error("intersect_with_feats: no overlap found")
+        
+        # logging.error("plot_domains: intersect_with_feats: no overlap found")
+        # logging.info(data_back_.to_dict(orient='records'))
+        logging.info(df1.to_dict(orient='records'))
         return    
     if layout=="blocks":
         ## rescale 
