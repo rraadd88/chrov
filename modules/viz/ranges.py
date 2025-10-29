@@ -162,7 +162,10 @@ def plot_ranges(
     else:
         col_hue=col_id
     assert isinstance(colors, dict), colors
-        
+    # ## flt colors
+    # if df1[col_hue].dtype != "float":
+    #     colors={k:v for k,v in colors.items() if v in df1[col_hue].tolist()}
+    
     if zorders is None:
         zorders = {}
 
