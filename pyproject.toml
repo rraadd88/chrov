@@ -18,6 +18,7 @@ license = "GPL-3.0-or-later"
 readme = "README.md"
 dependencies = [
     "argh>=0.31.3",
+    "bioservices>=1.12.1",
     "fastcore==1.7.10",
     # "ipykernel>=6.29.5",
     # "jupyter>=1.1.1",
