@@ -21,24 +21,19 @@ try:
     pass
 except:
     pass
-    
-from chrov.core import (
-    query_genes,
-    get_cache_dir_path
-)
-from chrov.annots import (
-    is_protein_coding,
-    get_annots
-)
+
+from chrov.core import query_genes, get_cache_dir_path
+from chrov.annots import is_protein_coding, get_annots
 from chrov.annots import get_ts
 from chrov.isoforms import (
     get_ranges,
     get_blocks,
-    get_plot_data, set_plot_data,
+    get_plot_data,
+    set_plot_data,
     plot_seq_feats,
     plot_isoforms,
     intersect_with_feats,
-    map_feats_to_blocks
+    map_feats_to_blocks,
 )
 
 from functools import partial
