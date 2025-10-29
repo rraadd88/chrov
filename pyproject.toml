@@ -59,7 +59,6 @@ dev = [
     "pytest-cov == 2.*",
     "testbook",
     "papermill",
-    
     # "regex",
     # lazydocs",
 ]
