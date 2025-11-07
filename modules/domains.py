@@ -2,7 +2,7 @@
 
 # %% auto 0
 __all__ = ['query_domains', 'format_domains', 'get_domains', 'get_ploc', 'get_p_bounds', 'get_protein_cds_coords', 'to_gpos',
-           'get_ds_data', 'pre_plot_domains', 'pro_plot_domains', 'plot_domains', 'annot_feats']
+           'get_ds_data', 'plot_domains', 'annot_feats']
 
 # %% ../../dups/04_domains.ipynb 5
 ## helper functions
@@ -423,7 +423,7 @@ def get_ds_data(
         #     ts=sorted(ts, key=lambda p: p.length)[-1:]
 
         df_ = pd.DataFrame(
-            [(t.id, t.protein_id,) for t in ts],
+            [(t.id, t.protein_id) for t in ts],
             columns=[
                 "t.id",
                 "p.id",
@@ -471,31 +471,47 @@ def get_ds_data(
     return df3
 
 
-def pre_plot_domains(
+def plot_domains(
     gene_id,
-    ensembl_release,
     species,
-    layout,
-    biotype,
-    force=False,
-    data=None,
+    ensembl_release,
+    biotype="p",
+    layout=None,
+    # flt=None,
+    ## i/o
     feats=None,
+    hue="d.id",  ## color by column
+    data: pd.DataFrame = None,
+    return_data=False,
+    force=False,
+    verbose=False,
+    test=False,
+    ax=None,
     kws_get_cache={},
+    **kws_ranges,
 ):
-    """Prepares data for plotting domains."""
     protein_coding = True
-    plot_data = get_plot_data(data=data, feats=feats, force=force)
-    data = plot_data['data']
-    feats = plot_data['feats']
+    if "protein_coding" in kws_ranges:
+        del kws_ranges["protein_coding"]
+
+    if not verbose:
+        logging.disable(logging.CRITICAL)
+
+    data, feats = get_plot_data(
+        data=data,
+        feats=feats,
+        force=force,
+    )
 
     if layout == "blocks":
         suffix = "b"
     else:
         suffix = ""
 
-    data_t = None
     if biotype == "t" and not protein_coding:
-        data_t = data
+        ## use the input data if available
+        ## else fetch data inside plot_soforms and map the domain feats from below
+        data_t = data  # .copy()
 
     if data is None:
         data = get_ds_data(
@@ -503,34 +519,13 @@ def pre_plot_domains(
             ensembl_release=ensembl_release,
             species=species,
             layout=layout,
+            # flt=flt,
             suffix=suffix,
             force=force,
             **kws_get_cache,
         )
-        # assert 't.strand' in data.columns, "t.strand missing after get_ds_data"
-    
-    return {'data': data, 'feats': feats, 'data_t': data_t}
 
-def pro_plot_domains(
-    data,
-    feats,
-    data_t,
-    gene_id,
-    ensembl_release,
-    species,
-    biotype,
-    layout,
-    hue,
-    ax=None,
-    test=False,
-    return_data=False,
-    **kws_ranges,
-):
-    """Plots domains from a pre-prepared DataFrame."""
-    protein_coding = True
-    if "protein_coding" in kws_ranges:
-        del kws_ranges["protein_coding"]
-
+    ## updating the kws param.s
     kws_ranges = {
         **kws_ranges,
         **dict(
@@ -543,7 +538,6 @@ def pro_plot_domains(
     }
 
     if biotype.startswith("p"):
-        suffix = "b" if layout == "blocks" else ""
         kws_plot = dict(
             plot=dict(
                 col_id="t.id",
@@ -553,9 +547,12 @@ def pro_plot_domains(
                 hue=hue,
                 start=1,
                 kind="joined",
-                show_lines=layout != "blocks",
+                show_lines=layout
+                != "blocks",  ## todo: if one transcript, line is not shown
             )
         )
+        # print(kws_plot)
+        ### with protein residue numbers
         ax = plot_seq_feats(
             data,
             col_feat_start=f"d{suffix}.start",
@@ -574,6 +571,9 @@ def pro_plot_domains(
             )
             if feats is not None:
                 feats = feats.loc[:, ["t.id", "d.id", "d.start", "d.end"]]
+            # else:
+            #     feats=None
+        # print(f"feats is None {feats is None}")
 
         data = plot_isoforms(
             gene_id=gene_id,
@@ -581,82 +581,38 @@ def pro_plot_domains(
             species=species,
             layout=layout,
             protein_coding=protein_coding,
+            ## columns
             feat_id="d.id",
             feat_start="d.start",
             feat_end="d.end",
             color_feats=hue,
+            # i/o
             feats=feats,
             data=data if protein_coding else data_t,
             return_data=return_data,
+            force=force,
             ax=ax,
             **kws_ranges,
         )
         ax = plt.gca()
-
     if biotype == "p":
-        ax.set(xlabel=None)
+        ax.set(
+            xlabel=None,
+        )
     if layout == "blocks":
         if not test:
             _ = ax.get_xaxis().set_visible(False)
-    
-    if return_data:
-        return set_plot_data(data, feats)
-    else:
-        return ax
-
-def plot_domains(
-    gene_id,
-    species,
-    ensembl_release,
-    biotype="p",
-    layout=None,
-    feats=None,
-    hue="d.id",
-    data: pd.DataFrame = None,
-    return_data=False,
-    force=False,
-    verbose=False,
-    test=False,
-    ax=None,
-    kws_get_cache={},
-    **kws_ranges,
-):
-    """Main entry point for plotting domains."""
-    if not verbose:
-        logging.disable(logging.CRITICAL)
-
-    prep_data = pre_plot_domains(
-        gene_id=gene_id,
-        ensembl_release=ensembl_release,
-        species=species,
-        layout=layout,
-        biotype=biotype,
-        force=force,
-        data=data,
-        feats=feats,
-        kws_get_cache=kws_get_cache,
-    )
-
-    result = pro_plot_domains(
-        data=prep_data['data'],
-        feats=prep_data['feats'],
-        data_t=prep_data['data_t'],
-        gene_id=gene_id,
-        ensembl_release=ensembl_release,
-        species=species,
-        biotype=biotype,
-        layout=layout,
-        hue=hue,
-        ax=ax,
-        test=test,
-        return_data=return_data,
-        **kws_ranges,
-    )
 
     if not verbose:
         logging.disable(logging.NOTSET)
 
-    return result
+    if return_data:
+        return set_plot_data(
+            data,
+            feats,
+        )
+    else:
+        return ax
 
 
 def annot_feats(
@@ -820,4 +776,3 @@ def annot_feats(
         logging.disable(logging.NOTSET)
 
     return ax
-
