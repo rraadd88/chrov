@@ -244,11 +244,11 @@ def plot_seq_feats(
     Plot sequence features.
     """
     ax = ax if ax is not None else plt.gca()
-
+    
     if len(df1) == 0:
         logging.error("empty data found. exiting")
         return ax
-
+    # logging.info(f"order={order}")
     if isinstance(sort, dict):
         order_sorted = (
             df1.sort_values(
@@ -260,22 +260,28 @@ def plot_seq_feats(
         )  # since y axis is not inverted
     else:
         order_sorted = sorted(df1[col_id].unique())
-
+    # logging.info(f"order={order}")
     if order is None:
         order = order_sorted
     else:
-        if isinstance(sort, dict):
-            ## filter by order
+        # assert 
+        if order_top is not None: 
+            logging.warning("(1) sort to sort, (2) order to filter, (2) order_top to group")        
+            ## (2) order to filter
             order = [s for s in order_sorted if s in order]
         else:
-            ## order by the provided order
-            order = [s for s in order if s in order_sorted]
-
+            logging.info("(1) order to order, (2) order_top to group")
+            ## filtered to data availability
+            order = [s for s in order if s in order_sorted]      
+    
+    # logging.info(f"order={order}")
+    
     if order_top is not None:
         order = [s for s in order if s not in order_top] + [
             s for s in order if s in order_top
         ]
-    logging.info(f"order={order}")
+        
+    # logging.info(f"order={order}")
 
     if "y" in df1:
         logging.warning(
@@ -642,11 +648,13 @@ def plot_isoforms(
                 **kws_plot_seq_feats,
             }
             if verbose:
-                print(
-                    kws_plot["plot"],
-                    kws_plot[k],
-                    kws_plot_seq_feats,
-                    kws_plot_,
+                logging.info(
+                    (
+                        kws_plot["plot"],
+                        kws_plot[k],
+                        kws_plot_seq_feats,
+                        kws_plot_,
+                    )
                 )
             ax = plot_seq_feats(
                 data,
