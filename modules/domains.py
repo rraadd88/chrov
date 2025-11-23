@@ -354,7 +354,7 @@ def to_gpos(
         )
         .swaplevel(axis=1)
         .rd.flatten_columns()
-        .rd.renameby_replace({" posi": ""},errors='ignore')
+        .rd.renameby_replace({" posi": ""}, errors="ignore")
         .reset_index()
         ## sort start and end
         .rd.sort_columns_by_values(

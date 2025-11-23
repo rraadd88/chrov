@@ -251,7 +251,7 @@ def plot_seq_feats(
     Plot sequence features.
     """
     ax = ax if ax is not None else plt.gca()
-    
+
     if len(df1) == 0:
         logging.error("empty data found. exiting")
         return ax
@@ -271,23 +271,25 @@ def plot_seq_feats(
     if order is None:
         order = order_sorted
     else:
-        # assert 
-        if order_top is not None: 
-            logging.warning("(1) sort to sort, (2) order to filter, (2) order_top to group")        
+        # assert
+        if order_top is not None:
+            logging.warning(
+                "(1) sort to sort, (2) order to filter, (2) order_top to group"
+            )
             ## (2) order to filter
             order = [s for s in order_sorted if s in order]
         else:
             logging.info("(1) order to order, (2) order_top to group")
             ## filtered to data availability
-            order = [s for s in order if s in order_sorted]      
-    
+            order = [s for s in order if s in order_sorted]
+
     # logging.info(f"order={order}")
-    
+
     if order_top is not None:
         order = [s for s in order if s not in order_top] + [
             s for s in order if s in order_top
         ]
-        
+
     # logging.info(f"order={order}")
 
     if "y" in df1:
