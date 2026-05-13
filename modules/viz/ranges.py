@@ -155,6 +155,7 @@ def plot_ranges(
                 )
             if isinstance(colors, list):
                 colors = dict(zip(df1[hue].unique(), colors))
+            assert isinstance(colors,dict),colors
         col_hue = hue
         del hue
     else:
