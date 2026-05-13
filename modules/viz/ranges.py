@@ -155,7 +155,7 @@ def plot_ranges(
                 )
             if isinstance(colors, list):
                 colors = dict(zip(df1[hue].unique(), colors))
-            assert isinstance(colors,dict),colors
+            assert isinstance(colors, dict), colors
         col_hue = hue
         del hue
     else:
@@ -170,16 +170,18 @@ def plot_ranges(
 
     ## lines
     _ = df1.apply(
-        lambda x: ax.hlines(
-            y=x[y],
-            xmin=x[col_start],
-            xmax=x[col_end],
-            color=colors.get(x[col_hue], color),
-            lw=lw,
-            **kws_hlines,
-        )
-        if not pd.isnull(x[y])
-        else None,
+        lambda x: (
+            ax.hlines(
+                y=x[y],
+                xmin=x[col_start],
+                xmax=x[col_end],
+                color=colors.get(x[col_hue], color),
+                lw=lw,
+                **kws_hlines,
+            )
+            if not pd.isnull(x[y])
+            else None
+        ),
         axis=1,
     )
     ax.invert_yaxis()
@@ -187,16 +189,18 @@ def plot_ranges(
     if show_labels:
         if kind in [None, "split", "separate"]:
             _ = df1.apply(
-                lambda x: ax.text(
-                    x=x[col_start],
-                    y=x[y],
-                    s=f"{x[col_label]} ",
-                    ha="right",
-                    va="center",
-                    # color=x['label_color'],
-                )
-                if not pd.isnull(x[y])
-                else None,
+                lambda x: (
+                    ax.text(
+                        x=x[col_start],
+                        y=x[y],
+                        s=f"{x[col_label]} ",
+                        ha="right",
+                        va="center",
+                        # color=x['label_color'],
+                    )
+                    if not pd.isnull(x[y])
+                    else None
+                ),
                 axis=1,
             )
             if col_label_right is not None:

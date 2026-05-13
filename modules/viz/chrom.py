@@ -568,8 +568,9 @@ def _concat_chroms(
             "chrom i": lambda df: df.groupby(
                 "chromosome", sort=False, observed=False
             ).ngroup(),
-            col_chrom_start: lambda df: df["chromosome"].map(_genome_ends).astype(int)
-            + 1,
+            col_chrom_start: lambda df: (
+                df["chromosome"].map(_genome_ends).astype(int) + 1
+            ),
             col_chrom_end: lambda df: df["chromosome"].map(genome_ends),
         }
     ).pipe(
