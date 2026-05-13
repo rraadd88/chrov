@@ -14,7 +14,7 @@ Applicable across scales, from genomes down to protein domains.
 <a href="">[![DOI](https://img.shields.io/pypi/v/chrov?style=for-the-badge)](https://pypi.org/project/chrov)</a>  
 <a href="">[![DOI](https://img.shields.io/badge/DOI-zenodo-blue?style=for-the-badge)](https://zenodo.org/records/10211266)</a>  
 <a href="">[<img src="https://img.shields.io/github/actions/workflow/status/rraadd88/beditor/build.yml?style=for-the-badge" class="quarto-discovered-preview-image" alt="build" />](https://github.com/rraadd88/chrov/actions/workflows/build.yml)</a>  
-<a href="">[![GNU License](https://img.shields.io/github/license/rraadd88/chrov.svg?style=for-the-badge)](https://github.com/rraadd88/chrov/blob/main/LICENSE)</a>  
+<a href="">[![GNU License](https://img.shields.io/github/license/rraadd88/chrov.svg?style=for-the-badge)](https://github.com/rraadd88/chrov/blob/main/LICENCE)</a>  
 <a href="">[![Downloads](https://img.shields.io/pypi/dm/chrov?style=for-the-badge)](https://pepy.tech/project/chrov)</a>  
 
 <br>
