@@ -110,9 +110,7 @@ def annot_labels(
             }
         )
     else:
-        df1 = data.sort_values(
-            colx
-        ).assign(
+        df1 = data.sort_values(colx).assign(
             **{
                 f"{colx} quadrant": lambda df: pd.cut(
                     df[colx],
