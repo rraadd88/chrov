@@ -41,7 +41,7 @@ Applicable across scales, from genomes down to protein domains.
         ensembl_release: int=112: Ensembl release,         
         height_ratios: list=[3,1]: ratio of the heatmap and the chrov plot,
         show_title: bool=False: show title of the level,
-        figsize: list=[2,1]: figure size,
+        figsize: list=[3,1.5]: figure size,
         cmap: str='Reds_r': colormap,
         force: bool = False: Over-write,
     
@@ -73,7 +73,7 @@ Applicable across scales, from genomes down to protein domains.
                             [3, 1]
       --show-title          False
       --figsize [FIGSIZE ...]
-                            [2, 1]
+                            [3, 1.5]
       -c CMAP, --cmap CMAP  'Reds_r'
       -l LOG_LEVEL, --log-level LOG_LEVEL
                             'WARNING'

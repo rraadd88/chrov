@@ -17,7 +17,7 @@ def plot(
     ## ints
     height_ratios: list = [3, 1],
     show_title: bool = False,
-    figsize: list = [2, 1],
+    figsize: list = [3, 1.5],
     cmap: str = "Reds_r",
     log_level="WARNING",
     force: bool = False,
@@ -33,7 +33,7 @@ def plot(
         ensembl_release: int=112: Ensembl release,
         height_ratios: list=[3,1]: ratio of the heatmap and the chrov plot,
         show_title: bool=False: show title of the level,
-        figsize: list=[2,1]: figure size,
+        figsize: list=[3,1.5]: figure size,
         cmap: str='Reds_r': colormap,
         force: bool = False: Over-write,
 
@@ -79,8 +79,11 @@ def plot(
     (
         plot_levels.plot(
             dfs_mat,
-            figsize=[3, 1.5],
-            height_ratios=[3, 1],
+            # g: CLI arguments were ignored (hard-coded values)
+            # g: list values from the CLI are strings
+            figsize=[float(s) for s in figsize],
+            height_ratios=[float(s) for s in height_ratios],
+            show_title=show_title,
             cmap=cmap,
             outd=outd,
             # **kws

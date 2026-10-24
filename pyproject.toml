@@ -19,7 +19,6 @@ readme = "README.md"
 dependencies = [
     "argh>=0.31.3",
     "bioservices>=1.12.1",
-    "fastcore==1.7.10",
     # "ipykernel>=6.29.5",
     # "jupyter>=1.1.1",
     # "mudata>=0.3.1",
@@ -33,7 +32,6 @@ dependencies = [
     # "sluf>=0.1.0",
     # "statsmodels==0.14.2",
     "matplotlib>=3.10.1",
-    "nbdev==2.3.31",
     "numpy",
     "pandas>=2",
     "pybiomart==0.2.0",
@@ -60,6 +58,8 @@ dev = [
     "pytest-cov == 2.*",
     "testbook",
     "papermill",
+    "nbdev==2.3.31",  # examples/viz_ranges.ipynb exports modules/viz/ranges.py
+    "fastcore==1.7.10",  # keeps execnb compatible with nbdev 2.3.31
     # "regex",
     # lazydocs",
 ]
@@ -83,10 +83,10 @@ profile = "black"
 
 [tool.setuptools]
 package-dir = { "chrov" = "modules" }
-packages = ["chrov"]
+packages = ["chrov", "chrov.fig", "chrov.plot", "chrov.viz"]
 
 [tool.setuptools.package-data]
 chrov = [
-    "modules/*.py", 
+    "inputs/*.tsv",
     # "notebooks*/*.ipynb"
 ]
