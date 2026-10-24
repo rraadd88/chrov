@@ -27,11 +27,6 @@ from roux.stat.paired import get_diff_sorted
 
 import matplotlib.pyplot as plt
 
-try:
-    pass
-except:
-    pass
-
 from chrov.core import query_genes, get_cache_dir_path
 from chrov.annots import is_protein_coding, get_annots
 from chrov.annots import get_ts

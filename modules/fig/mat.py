@@ -7,7 +7,7 @@ __all__ = ["get_gid_info", "Plot_levels"]
 import logging
 import matplotlib.pyplot as plt
 
-from chrov.utils import get_src_path
+from pathlib import Path
 
 import pandas as pd
 
@@ -20,16 +20,14 @@ from chrov.plot.mat import plot_tri
 @functools.cache
 def get_gid_info(gid):
     import requests
-    import sys
 
     server = "https://rest.ensembl.org"
     ext = f"/lookup/id/{gid}?format=full"
 
-    r = requests.get(server + ext, headers={"Content-Type": "application/json"})
-
-    if not r.ok:
-        r.raise_for_status()
-        sys.exit()
+    r = requests.get(
+        server + ext, headers={"Content-Type": "application/json"}, timeout=60
+    )
+    r.raise_for_status()
 
     decoded = r.json()
     # print(repr(decoded))
@@ -54,12 +52,13 @@ class Plot_levels:
         self.ensembl_release = ensembl_release
 
         cytobands = pd.read_table(
-            f"{get_src_path()}/modules/{self.in_dir_name}/cytobands.tsv",
+            # g: package directory (modules/ in the repository, chrov/ when installed)
+            f"{Path(__file__).resolve().parents[1]}/{self.in_dir_name}/cytobands.tsv",
             index_col=[0],
         )
 
         mdata_gid = get_gid_info(
-            gid="ENSG00000187634",
+            gid=self.gene_id,
         )
         self.chrom = mdata_gid["seq_region_name"]
 

@@ -22,10 +22,7 @@ import matplotlib.pyplot as plt
 from roux.stat.paired import get_diff_sorted
 from roux.stat.transform import rescale
 
-try:
-    from chrov.annots import get_ranges, intersect_with_feats, get_ts_data
-except:
-    from dups.annots import get_ranges, intersect_with_feats, get_ts_data
+from chrov.annots import get_ranges, intersect_with_feats, get_ts_data
 
 
 def get_blocks(

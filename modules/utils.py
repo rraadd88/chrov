@@ -15,10 +15,8 @@ import site
 
 
 def get_pkg_name():
-    pkg_name = Path(".").resolve().stem
-    if pkg_name == "modules":
-        pkg_name = Path(".").parent.resolve().stem
-    return pkg_name
+    # g: was the name of the current working directory
+    return __name__.split(".")[0]
 
 
 def get_src_path(

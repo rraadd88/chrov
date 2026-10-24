@@ -28,10 +28,7 @@ from roux.stat.paired import get_diff_sorted
 from roux.lib.io import read_table, to_table
 from pathlib import Path
 
-try:
-    from chrov.core import get_cache_dir_path
-except:
-    from dups.core import get_cache_dir_path
+from chrov.core import get_cache_dir_path
 
 
 def get_species_name(species):

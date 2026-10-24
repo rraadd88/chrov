@@ -16,10 +16,7 @@ from roux.lib.io import read_dict, to_table, read_table
 
 from pathlib import Path
 
-try:
-    from dups.utils import get_cache_dir
-except:
-    from chrov.utils import get_cache_dir
+from chrov.utils import get_cache_dir
 
 ## ensembl
 ## prefixes
