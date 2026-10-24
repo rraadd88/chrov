@@ -314,7 +314,7 @@ def plot_seq_feats(
             .drop_duplicates()
         )
         # print(data_.iloc[0,:])
-        df_ = data_.apply(
+        _ = data_.apply(
             lambda x: ax.hlines(
                 y=x["y"],
                 xmin=x[col_start_lines],  # =data[col_start].min()

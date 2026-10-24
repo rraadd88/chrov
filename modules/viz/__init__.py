@@ -188,8 +188,8 @@ def plot_forms(
                 data=data,
                 validate=validate,
             )
-        except:
-            logging.warning("install roux[all] for to_plot to work")
+        except Exception as e:
+            logging.warning(f"install roux[all] for to_plot to work ({e})")
     else:
         logging.info(f"reading cache from {outp}")
         ax = read_plot(

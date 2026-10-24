@@ -393,7 +393,6 @@ def intersect_with_feats(
     mapped_feat_id = f"{mapped_feat_prefix}.id"
     mapped_feat_start = f"{mapped_feat_prefix}.start"
     mapped_feat_end = f"{mapped_feat_prefix}.end"
-    mapped_feat_length = f"{mapped_feat_prefix}.length"
 
     ## map to tids
     df3 = intersect_with_seqs(
