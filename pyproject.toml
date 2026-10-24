@@ -34,10 +34,10 @@ dependencies = [
     # "statsmodels==0.14.2",
     "matplotlib>=3.10.1",
     "nbdev==2.3.31",
-    "numpy<2",
+    "numpy",
     "pandas>=2",
     "pybiomart==0.2.0",
-    "pyensembl",
+    "pyensembl>=2.6",
     "pyranges>=0.1.4",
     "roux",
     "scipy>=1.15.2",
@@ -69,7 +69,6 @@ lint = [
 
 [tool.uv.sources]
 roux = { git = "https://github.com/rraadd88/roux.git", rev = "master" }
-pyensembl = { git = "https://github.com/rraadd88/pyensembl.git", rev = "patch-2" }
 
 [project.scripts]
 chrov = "chrov.run:parser.dispatch"
