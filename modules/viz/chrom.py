@@ -230,8 +230,6 @@ def plot_arm(
         f"multiple chromosomes provided: {data['chromosome'].unique()}"
     )
     start, end = data[col_start].min(), data[col_end].max()
-    if ax is None:
-        fig, ax = plt.subplots(figsize=[5, 1])
     # to_set the line width
     if kws_pre_xys is None:
         kws_pre_xys = {}
@@ -293,6 +291,20 @@ def plot_arm(
             ),
             axis=1,
         )
+        # g: variable heterochromatin and stalks (e.g. acrocentric p-arms) were left blank
+        for band_type, alpha in [("gvar", 0.6), ("stalk", 0.15)]:
+            data.loc[(data["cytoband type"] == band_type), :].apply(
+                lambda x: ax.plot(
+                    *_pre_xys([x[col_start], x[col_end]], [y, y], **kws_pre_xys),
+                    lw=lw,
+                    solid_capstyle="butt",
+                    alpha=alpha,
+                    color="k",
+                    zorder=2,
+                    clip_on=False,
+                ),
+                axis=1,
+            )
         ## centromere
         data.loc[(data["cytoband type"] == "acen"), :].log().apply(
             lambda x: ax.plot(
@@ -401,11 +413,13 @@ def plot_chrom(
                     range2=kws_plot_arm["kws_pre_xys"]["range2"],
                 )
             )
-        except:
-            print(
-                [data[col_start].min(), data[col_end].max()],
-                kws_plot_arm["kws_pre_xys"]["range2"],
+        except Exception as e:
+            logging.warning(
+                f"xlim not set ({e}): {[data[col_start].min(), data[col_end].max()]}, {kws_plot_arm['kws_pre_xys']['range2']}"
             )
+    else:
+        # g: xlim was left at the last arm's range, which hid the p-arm
+        ax.set(xlim=[data[col_start].min(), data[col_end].max()])
 
     return ax
 
