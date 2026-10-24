@@ -4,11 +4,19 @@ on:
   push:
     branches: "*"
     paths:
-      - "modules/*"
+      - "modules/**"
+      - "tests/**"
+      - "examples/**"
+      - "pyproject.toml"
+      - ".github/workflows/build.yml"
   pull_request:
     branches: "*"
     paths:
-      - "modules/*"
+      - "modules/**"
+      - "tests/**"
+      - "examples/**"
+      - "pyproject.toml"
+      - ".github/workflows/build.yml"
 
 jobs:
   build-n-test-n-coverage:
@@ -47,5 +55,6 @@ jobs:
           
       - name: Run the tests
         # run: tox
-        run: uv run tox
+        # tox.ini only defines a Python 3.7 environment
+        run: uv run pytest tests
         

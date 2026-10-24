@@ -196,6 +196,9 @@ def get_p_bounds(
             return max(pos)
         else:
             return min(pos)
+    else:
+        # g: unknown strand used to return None silently
+        raise ValueError(f"strand should be '+' or '-', found: {strand}")
 
 
 # copy of from beditor.lib.get_mutations import get_protein_cds_coords
@@ -221,26 +224,33 @@ def get_protein_cds_coords(annots, protein_id: str, strict=True) -> pd.DataFrame
         )
         return  # None, None, None
 
-    assert (
-        len(t.protein_sequence) * 3
-        == len(t.coding_sequence) - 3
-        == sum([i[1] - i[0] + 1 for i in t.coding_sequence_position_ranges])
-    ), "CDS length is not compatible with the protein sequence"
+    aa_count = len(t.protein_sequence)
+    # g: pyensembl>=2.7 includes the stop codon in `coding_sequence_position_ranges`, earlier versions do not
+    cds_ranges = sorted(t.coding_sequence_position_ranges, reverse=t.strand == "-")
+    cds_length = sum([end - start + 1 for start, end in cds_ranges])
+    assert len(t.coding_sequence) == aa_count * 3 + 3, (
+        "CDS length is not compatible with the protein sequence"
+    )
+    assert cds_length - aa_count * 3 in [0, 3], (
+        f"CDS ranges ({cds_length} nt) are not compatible with the protein sequence ({aa_count} aa)"
+    )
 
     from roux.lib.set import flatten
 
     return (
         pd.DataFrame(
             {
+                # g: 5'->3' positions without the stop codon
                 "pos": flatten(
                     [
-                        list(range(i[0], i[1] + 1))
-                        for i in t.coding_sequence_position_ranges
+                        list(range(start, end + 1))
+                        if t.strand == "+"
+                        else list(range(end, start - 1, -1))
+                        for start, end in cds_ranges
                     ]
-                ),
+                )[: aa_count * 3],
             }
         )
-        .sort_values("pos", ascending=t.strand == "+")
         .assign(
             **{
                 "chrom": t.contig,
@@ -277,8 +287,10 @@ def to_gpos(
 
     for c in cols_feats:
         if c not in df3:
+            logging.warning(f"column not found: {c}")
             return None  # df3
         elif df3[c].isnull().all():
+            logging.warning(f"no values in column: {c}")
             return None  # df3
 
     df3 = df3.dropna(
@@ -320,6 +332,11 @@ def to_gpos(
     )
     # print(df4)
 
+    # g: one strand lookup per protein instead of per row
+    strands = {
+        pid: annots.transcript_by_protein_id(pid).strand for pid in df3["p.id"].unique()
+    }
+
     ## merging
     df5 = (
         df3.melt(
@@ -338,7 +355,7 @@ def to_gpos(
                 lambda x: get_p_bounds(
                     pos=x["pos"],
                     pstart=x["variable"].endswith("start"),
-                    strand=annots.transcript_by_protein_id(x["p.id"]).strand,
+                    strand=strands[x["p.id"]],
                 ),
                 axis=1,
             )
@@ -374,13 +391,8 @@ def to_gpos(
     # print(df6)
 
     assert not any(df6["d.length"] < 0)
-    return pd.concat(
-        [
-            df6.sort_values("d.start"),
-            df3,
-        ],
-        axis=0,
-    ).reset_index(drop=True)
+    # g: before, the residue-coordinate rows of df3 were concatenated to the genome-coordinate rows
+    return df6.sort_values("d.start").reset_index(drop=True)
 
 
 ## cache

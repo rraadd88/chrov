@@ -17,7 +17,7 @@ jobs:
       - name: ruff
         continue-on-error: true
         run: |
-          pip install --user ruff
+          pip install --user "ruff<0.15"
           ruff check modules --fix --ignore E402,E722,F841,E741
           ruff format modules
       - name: ruff commit
